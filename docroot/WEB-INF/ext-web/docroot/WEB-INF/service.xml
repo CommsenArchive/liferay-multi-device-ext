@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path="com.commsen.liferay.multidevice">
+	<author>Milen Dyankov</author>
+	<namespace>MultiDevice</namespace>
+
+	<entity name="ThemeRules" local-service="true" remote-service="true">
+		<!-- Primary key column -->
+		<column name="rid" type="long" primary="true" />
+
+		<!-- Foreign key columns -->
+		<column name="companyId" type="long" />
+		<column name="groupId" type="long" />
+
+		<!-- Condition columns -->
+		<column name="brand" type="String" />
+		<column name="model" type="String" />
+		<column name="os" type="String" />
+		<column name="osVersion" type="String" />
+		<column name="browser" type="String" />
+		<column name="browserVersion" type="String" />
+		<column name="pointingMethod" type="String" />
+		<column name="tablet" type="boolen" />
+		<column name="qwertyKeyboad" type="boolean" />
+
+		<!-- theme columns -->
+		<column name="themeId" type="String" />
+		<column name="colorSchemeId" type="String" />
+
+		<!-- theme columns -->
+		<column name="priority" type="int" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="priority" />
+		</order>
+
+		<!-- Finder Methods -->				
+		<finder name="Conditons" return-type="Collection">
+			<finder-column name="brand" />
+			<finder-column name="model" />
+			<finder-column name="os" />
+			<finder-column name="osVersion" />
+			<finder-column name="browser" />
+			<finder-column name="browserVersion" />
+			<finder-column name="pointingMethod" />
+			<finder-column name="tablet" />
+			<finder-column name="qwertyKeyboad" />
+		</finder>
+	</entity></service-builder>

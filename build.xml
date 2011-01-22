@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<project name="multi-device-ext" basedir="." default="deploy">
+	<property name="service.file" value="docroot/WEB-INF/ext-web/docroot/WEB-INF/service.xml"/>
+
+	<import file="../build-common-ext.xml" />
+</project>
