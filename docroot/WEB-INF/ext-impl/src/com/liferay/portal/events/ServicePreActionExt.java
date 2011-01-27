@@ -31,11 +31,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.struts.Globals;
 
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.DevicesUtil;
+import com.commsen.liferay.multidevice.model.ThemeRule;
+import com.commsen.liferay.multidevice.service.ThemeRuleLocalServiceUtil;
 import com.liferay.portal.LayoutPermissionException;
 import com.liferay.portal.NoSuchGroupException;
 import com.liferay.portal.NoSuchLayoutException;
@@ -1349,9 +1352,8 @@ public class ServicePreActionExt extends Action {
 		ColorScheme colorScheme = null;
 
 		boolean wapTheme = BrowserSnifferUtil.isWap(request);
-
-		if ((layout != null) &&
-			group.isControlPanel()) {
+		
+		if ((layout != null) && group.isControlPanel()) {
 
 			String themeId = PrefsPropsUtil.getString(
 				companyId, PropsKeys.CONTROL_PANEL_LAYOUT_REGULAR_THEME_ID);
@@ -1371,47 +1373,57 @@ public class ServicePreActionExt extends Action {
 					companyId, theme.getThemeId(), colorSchemeId, false);
 			}
 		}
-		else if (layout != null) {
-			if (wapTheme) {
-				theme = layout.getWapTheme();
-				colorScheme = layout.getWapColorScheme();
-			}
-			else {
-				theme = layout.getTheme();
-				colorScheme = layout.getColorScheme();
-			}
-		}
 		else {
-			String themeId = null;
-			String colorSchemeId = null;
+			
+			Device device = DevicesUtil.getDeviceFromRequest(request);
+			System.out.println(" Device is: " + device); 
+			List<ThemeRule> themeRules = ThemeRuleLocalServiceUtil.getMatchingRules(companyId, group.getGroupId(), device);
 
-			if (wapTheme) {
-				themeId = ThemeImpl.getDefaultWapThemeId(companyId);
-				colorSchemeId = ColorSchemeImpl.getDefaultWapColorSchemeId();
+			if (!themeRules.isEmpty()) {
+		
+				ThemeRule rule = themeRules.get(0);
+				System.out.println("\n Matching rule is: \n\t\t" + rule.asText());
+				
+				theme = ThemeLocalServiceUtil.getTheme(companyId, rule.getThemeId(), false);
+				String colorSchemeId = rule.getColorSchemeId();
+				if (StringUtils.isBlank(colorSchemeId)) {
+					colorSchemeId = ColorSchemeImpl.getDefaultRegularColorSchemeId();
+				}
+				colorScheme = ThemeLocalServiceUtil.getColorScheme(companyId, theme.getThemeId(), colorSchemeId, false);
+				
+				System.out.println("Changing theme to " + theme.getName() + " and color scheme to " + colorScheme.getName());
+			
+			}
+			else if (layout != null) {
+				if (wapTheme) {
+					theme = layout.getWapTheme();
+					colorScheme = layout.getWapColorScheme();
+				}
+				else {
+					theme = layout.getTheme();
+					colorScheme = layout.getColorScheme();
+				}
 			}
 			else {
-				themeId = ThemeImpl.getDefaultRegularThemeId(companyId);
-				colorSchemeId =
-					ColorSchemeImpl.getDefaultRegularColorSchemeId();
+				String themeId = null;
+				String colorSchemeId = null;
+	
+				if (wapTheme) {
+					themeId = ThemeImpl.getDefaultWapThemeId(companyId);
+					colorSchemeId = ColorSchemeImpl.getDefaultWapColorSchemeId();
+				}
+				else {
+					themeId = ThemeImpl.getDefaultRegularThemeId(companyId);
+					colorSchemeId =
+						ColorSchemeImpl.getDefaultRegularColorSchemeId();
+				}
+	
+				theme = ThemeLocalServiceUtil.getTheme(
+					companyId, themeId, wapTheme);
+				colorScheme = ThemeLocalServiceUtil.getColorScheme(
+					companyId, theme.getThemeId(), colorSchemeId, wapTheme);
 			}
-
-			theme = ThemeLocalServiceUtil.getTheme(
-				companyId, themeId, wapTheme);
-			colorScheme = ThemeLocalServiceUtil.getColorScheme(
-				companyId, theme.getThemeId(), colorSchemeId, wapTheme);
 		}
-
-		
-		Device device = DevicesUtil.getDeviceFromRequest(request);
-		System.out.println("\n");
-		System.out.println(" Theme is: " + theme.getName());
-		System.out.println(" Device is: " + device.getCapability("brand_name") + " " + device.getCapability("model_name")); 
-		System.out.println("\n");
-		
-//		System.out.println("Changing theme to Jedi !!!!");
-//		theme = ThemeLocalServiceUtil.getTheme(companyId, "jedi_WAR_jeditheme", false);
-//		System.out.println("\n\n\n");
-		
 		
 		request.setAttribute(WebKeys.THEME, theme);
 		request.setAttribute(WebKeys.COLOR_SCHEME, colorScheme);

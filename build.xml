@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <project name="multi-device-ext" basedir="." default="deploy">
-	<property name="service.file" value="docroot/WEB-INF/ext-web/docroot/WEB-INF/service.xml"/>
+	<property name="service.file" value="docroot/WEB-INF/ext-impl/src/com/commsen/liferay/multidevice/service.xml"/>
 
 	<import file="../build-common-ext.xml" />
 </project>

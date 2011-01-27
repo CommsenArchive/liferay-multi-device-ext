@@ -1,0 +1,1 @@
+Liferay.Service.register("Liferay.Service.MultiDevice", "com.commsen.liferay.multidevice.service");

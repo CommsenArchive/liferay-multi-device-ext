@@ -4,7 +4,7 @@
 	<author>Milen Dyankov</author>
 	<namespace>MultiDevice</namespace>
 
-	<entity name="ThemeRules" local-service="true" remote-service="true">
+	<entity name="ThemeRule" local-service="true" remote-service="true">
 		<!-- Primary key column -->
 		<column name="rid" type="long" primary="true" />
 
@@ -13,19 +13,19 @@
 		<column name="groupId" type="long" />
 
 		<!-- Condition columns -->
-		<column name="brand" type="String" />
-		<column name="model" type="String" />
-		<column name="os" type="String" />
-		<column name="osVersion" type="String" />
-		<column name="browser" type="String" />
-		<column name="browserVersion" type="String" />
-		<column name="pointingMethod" type="String" />
-		<column name="tablet" type="boolen" />
-		<column name="qwertyKeyboad" type="boolean" />
+		<column name="brand" type="String" convert-null="false"/>
+		<column name="model" type="String" convert-null="false" />
+		<column name="os" type="String" convert-null="false" />
+		<column name="osVersion" type="String" convert-null="false" />
+		<column name="browser" type="String" convert-null="false" />
+		<column name="browserVersion" type="String" convert-null="false" />
+		<column name="pointingMethod" type="String" convert-null="false" />
+		<column name="tablet" type="String" convert-null="false" />
+		<column name="qwertyKeyboad" type="String" convert-null="false" />
 
 		<!-- theme columns -->
-		<column name="themeId" type="String" />
-		<column name="colorSchemeId" type="String" />
+		<column name="themeId" type="String" convert-null="false"/>
+		<column name="colorSchemeId" type="String" convert-null="false"/>
 
 		<!-- theme columns -->
 		<column name="priority" type="int" />
@@ -35,8 +35,15 @@
 			<order-column name="priority" />
 		</order>
 
-		<!-- Finder Methods -->				
-		<finder name="Conditons" return-type="Collection">
+		<!-- Finder Methods -->			
+		<finder name="CompanyAndGroup" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
+		</finder>
+		
+		<finder name="Conditions" return-type="Collection">
+			<finder-column name="companyId" />
+			<finder-column name="groupId" />
 			<finder-column name="brand" />
 			<finder-column name="model" />
 			<finder-column name="os" />

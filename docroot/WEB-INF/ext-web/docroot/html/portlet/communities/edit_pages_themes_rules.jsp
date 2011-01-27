@@ -1,5 +1,13 @@
 
 
+<%@page import="org.apache.commons.lang.StringUtils"%>
+<%@page import="com.liferay.portal.model.ColorScheme"%>
+<%@page import="com.liferay.portal.service.ThemeLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.Theme"%>
+<%@page import="com.commsen.liferay.multidevice.service.ThemeRuleLocalServiceUtil"%>
+<%@page import="java.util.List"%>
+<%@page import="com.commsen.liferay.multidevice.model.ThemeRule"%>
+<%@page import="com.commsen.liferay.multidevice.service.persistence.ThemeRuleUtil"%>
 <%@page import="com.commsen.liferay.multidevice.DevicesUtil" %>
 <%@page import="com.commsen.liferay.multidevice.VersionableName"%>
 
@@ -92,8 +100,8 @@
 				<td>
 					<select id="<portlet:namespace />isTablet" name="<portlet:namespace />isTablet" >
 						<option value="">doesn't matter</option>
-						<option value="">yes</option>
-						<option value="">no</option>
+						<option>yes</option>
+						<option>no</option>
 					</select>
 				</td>
 				<td></td>
@@ -104,8 +112,8 @@
 				<td>
 					<select id="<portlet:namespace />hasQwertyKeyboard" name="<portlet:namespace />hasQwertyKeyboard" >
 						<option value="">doesn't matter</option>
-						<option value="">yes</option>
-						<option value="">no</option>
+						<option>yes</option>
+						<option>no</option>
 					</select>
 				</td>
 				<td></td>
@@ -123,10 +131,49 @@
 		</a>
 	</fieldset>
 	<fieldset>
-		<a href="">Save this rule with priority</a>
-		<input id="<portlet:namespace />dynamicThemePriority" name="<portlet:namespace />dynamicThemePriority" size="4" value="100"/>
+		<a href="javascript:<portlet:namespace />saveThemeRule()">Save this rule with priority</a>
+		<input id="<portlet:namespace />rulePriority" name="<portlet:namespace />rulePriority" size="4" value="100"/>
 	</fieldset>
 
+</div>
+
+<div>
+	<input id="<portlet:namespace />deleteRuleId" name="<portlet:namespace />deleteRuleId" type="hidden"/>
+	<table class="taglib-search-iterator">
+		<%
+		List<ThemeRule> themeRules	= ThemeRuleLocalServiceUtil.getRules(company.getCompanyId(), liveGroupId);
+		for (ThemeRule themeRule : themeRules) {
+			Theme ruleTheme = ThemeLocalServiceUtil.getTheme(company.getCompanyId(), themeRule.getThemeId(), false);
+			ColorScheme ruleColorScheme = null;
+			if (!StringUtils.isBlank(themeRule.getColorSchemeId())) {
+				ruleColorScheme = ThemeLocalServiceUtil.getColorScheme(company.getCompanyId(), ruleTheme.getThemeId(), themeRule.getColorSchemeId(), false);
+			}
+			
+			String name;
+			String url; 
+			if (ruleColorScheme == null) { 
+				name = ruleTheme.getName();
+				url = ruleTheme.getContextPath()+ ruleTheme.getImagesPath() + "/thumbnail.png";
+			} else {
+				name = ruleTheme.getName() + "(" + ruleColorScheme.getName() + ")";
+				url = ruleTheme.getContextPath()+ ruleColorScheme.getColorSchemeThumbnailPath() + "/thumbnail.png";
+			}
+
+		%>
+			<tr>
+				<td><%=themeRule.getPriority() %></td>
+				<td><%=themeRule.asText() %></td>
+				
+				<td>
+					<span class="theme-title"><%= name %></span>
+					<img alt="<%=name %>" class="theme-thumbnail" src="<%=url %>" title="<%=name %>" />
+				</td>
+				<td><a href="javascript:<portlet:namespace />deleteThemeRule(<%=themeRule.getRid() %>)">Delete this rule</a></td>
+			</tr>
+		<%
+		}
+		%>
+	</table>
 </div>
 
 <aui:script use="liferay-auto-fields">
@@ -276,19 +323,6 @@
 		['aui-base']
 	);
 
-
-	<%--
-	AUI().ready(, function(A) {
-
-	});
-	
-	for (VersionableName os : DevicesUtil.getOperatingSystems()) {
-	%>
-		var a = <%=os.getName() %>;
-		var b = <%=os.getVersions() %>;
-	<%
-	}
-	--%>
 
 </aui:script>
 

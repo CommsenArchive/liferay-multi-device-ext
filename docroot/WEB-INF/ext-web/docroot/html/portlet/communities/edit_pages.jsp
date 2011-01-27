@@ -571,6 +571,27 @@ request.setAttribute("edit_pages.jsp-portletURL", portletURL);
 
 	Liferay.provide(
 		window,
+		'<portlet:namespace />saveThemeRule',
+		function() {
+			document.<portlet:namespace />fm.<portlet:namespace /><%= Constants.CMD %>.value = "save_theme_rule";
+			submitForm(document.<portlet:namespace />fm);
+		},
+		['aui-base']
+	);
+	
+	Liferay.provide(
+		window,
+		'<portlet:namespace />deleteThemeRule',
+		function(deleteRuleId) {
+			document.<portlet:namespace />fm.<portlet:namespace /><%= Constants.CMD %>.value = "delete_theme_rule";
+			document.<portlet:namespace />fm.<portlet:namespace />deleteRuleId.value = deleteRuleId;
+			submitForm(document.<portlet:namespace />fm);
+		},
+		['aui-base']
+	);
+
+	Liferay.provide(
+		window,
 		'<portlet:namespace />updateStaging',
 		function() {
 			var A = AUI();
