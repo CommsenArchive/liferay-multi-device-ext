@@ -1,3 +1,19 @@
+/**
+ *	This file is part of multi-device portal extension for Liferay.
+ *	
+ * Multi-device portal extension for Liferay is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Multi-device portal extension for Liferay is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
+ */
 package com.commsen.liferay.multidevice;
 
 import java.util.Collections;
@@ -6,26 +22,26 @@ import java.util.TreeSet;
 
 import com.commsen.liferay.multidevice.VersionableName;
 
-
-
 public class VersionableNameImpl implements VersionableName {
-	
+
 	private String name;
 	private Set<String> versions;
-	
-	
+
+
 	public VersionableNameImpl(String name, Set<String> versions) {
 		if (name == null) throw new IllegalArgumentException("Can not create VersionableName without name!");
 		this.name = name;
 		this.versions = versions;
 	}
 
+
 	public VersionableNameImpl(String name) {
 		this(name, null);
 	}
 
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.commsen.liferay.multidevice.VersionableProduct#getName()
 	 */
 	@Override
@@ -34,7 +50,8 @@ public class VersionableNameImpl implements VersionableName {
 	}
 
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see com.commsen.liferay.multidevice.VersionableProduct#getVersions()
 	 */
 	@Override
@@ -43,29 +60,34 @@ public class VersionableNameImpl implements VersionableName {
 		return Collections.unmodifiableSet(versions);
 	}
 
+
 	public void addVersion(String version) {
 		if (version == null) return;
 		if (versions == null) versions = new TreeSet<String>();
 		if (!versions.contains(version)) versions.add(version);
 	}
-	
+
+
 	@Override
 	public boolean equals(Object copy) {
 		if (copy == null || !(copy instanceof VersionableName)) return false;
-		return this.getName().equals(((VersionableName)copy).getName());
+		return this.getName().equals(((VersionableName) copy).getName());
 	}
-	
+
+
 	@Override
 	public int hashCode() {
-		 int hash = 1;
-		 hash = hash * 31 + name.hashCode();
-		 return hash;
+		int hash = 1;
+		hash = hash * 31 + name.hashCode();
+		return hash;
 	}
-	
+
+
 	@Override
 	public String toString() {
 		return "VersionableName (Name: " + name + ", Versions: " + versions + ")";
 	}
+
 
 	@Override
 	public int compareTo(VersionableName o) {

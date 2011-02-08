@@ -16,19 +16,14 @@
  */
 package com.commsen.liferay.multidevice;
 
-import java.io.Serializable;
-import java.util.Set;
+import com.liferay.portal.kernel.messaging.MessageBus;
 
 /**
- * Represents versionable name (a name and a set of versions)
+ * Represents a "get known devices" command send over Liferay's {@link MessageBus}
  * 
  * @author Milen Dyankov
  *
  */
-public interface VersionableName extends Comparable<VersionableName>, Serializable {
-
-	public abstract String getName();
-
-	public abstract Set<String> getVersions();
+public class KnownDevicesCommand {
 
 }

@@ -16,19 +16,54 @@
  */
 package com.commsen.liferay.multidevice;
 
-import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * Represents versionable name (a name and a set of versions)
+ * Implementations should provide information about all client devices known to particular
+ * {@link DeviceRecognitionProvider}
  * 
  * @author Milen Dyankov
- *
  */
-public interface VersionableName extends Comparable<VersionableName>, Serializable {
+public interface KnownDevices {
 
-	public abstract String getName();
+	/**
+	 * Returns a map containing all known devices having given capability values
+	 * 
+	 * @return a map containing all known devices having given capability values
+	 */
+	public Map<CapabilityValue, Set<String>> getDevicesByCapabilities();
 
-	public abstract Set<String> getVersions();
+
+	/**
+	 * Returns all known brands
+	 * 
+	 * @return all known brands
+	 */
+	public Set<VersionableName> getBrands();
+
+
+	/**
+	 * Returns all known operating systems
+	 * 
+	 * @return all known operating systems
+	 */
+	public Set<VersionableName> getOperatingSystems();
+
+
+	/**
+	 * Returns all known browsers
+	 * 
+	 * @return all known browsers
+	 */
+	public Set<VersionableName> getBrowsers();
+
+
+	/**
+	 * Returns all known pointing methods
+	 * 
+	 * @return all known pointing methods
+	 */
+	public Set<String> getPointingMethods();
 
 }

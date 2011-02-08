@@ -16,19 +16,29 @@
  */
 package com.commsen.liferay.multidevice;
 
-import java.io.Serializable;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+
+import com.liferay.portal.kernel.messaging.MessageBus;
 
 /**
- * Represents versionable name (a name and a set of versions)
+ * Represents a "get device from request" command send over Liferay's {@link MessageBus}
  * 
  * @author Milen Dyankov
- *
+ * 
  */
-public interface VersionableName extends Comparable<VersionableName>, Serializable {
+public class DeviceFromRequestCommand {
 
-	public abstract String getName();
+	private HttpServletRequest request;
 
-	public abstract Set<String> getVersions();
+
+	public DeviceFromRequestCommand(HttpServletRequest request) throws IllegalArgumentException {
+		if (request == null) throw new IllegalArgumentException("Request can not be null!");
+		this.request = request;
+	}
+
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
 
 }

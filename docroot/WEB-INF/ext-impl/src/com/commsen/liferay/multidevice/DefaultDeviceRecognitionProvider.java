@@ -16,19 +16,31 @@
  */
 package com.commsen.liferay.multidevice;
 
-import java.io.Serializable;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
- * Represents versionable name (a name and a set of versions)
  * 
  * @author Milen Dyankov
  *
  */
-public interface VersionableName extends Comparable<VersionableName>, Serializable {
+public class DefaultDeviceRecognitionProvider implements DeviceRecognitionProvider {
 
-	public abstract String getName();
+	private static Log _log = LogFactoryUtil.getLog(DefaultDeviceRecognitionProvider.class);
 
-	public abstract Set<String> getVersions();
+	@Override
+	public KnownDevices getKnownDevices() {
+		_log.warn("DEVICE RECOGNITION PROVIDER NOT INSTALLED! LIST OF KNOWN DEVICES IS NOT AVAILABLE!");
+		return null;
+	}
+
+
+	@Override
+	public Device getDeviceFromRequest(HttpServletRequest request) {
+		_log.warn("DEVICE RECOGNITION PROVIDER NOT INSTALLED! UNABLE TO RECOGNIZE USER'S DEVICE!");
+		return null;
+	}
 
 }

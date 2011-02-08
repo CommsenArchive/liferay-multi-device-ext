@@ -1,89 +1,107 @@
+/**
+ *	This file is part of multi-device portal extension for Liferay.
+ *	
+ * Multi-device portal extension for Liferay is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Multi-device portal extension for Liferay is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
+ */
 package com.commsen.liferay.multidevice;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.commsen.liferay.multidevice.CapabilityValue;
-import com.commsen.liferay.multidevice.Device;
-import com.commsen.liferay.multidevice.DeviceRecognitionProvider;
-import com.commsen.liferay.multidevice.VersionableName;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-
+/**
+ * This class provides convenient methods for device recognition
+ * 
+ * 
+ * @author Milen Dyankov
+ * 
+ */
 public class DevicesUtil {
 
+	protected static DeviceRecognitionProvider _deviceRecognitionProvider;
 
-	protected static Set<DeviceRecognitionProvider> deviceRecognitionProviders = new HashSet<DeviceRecognitionProvider>();
-	
-	
-	protected static Set<VersionableName> operatingSystems;
-	protected static Set<VersionableName> browsers;
-	protected static Set<VersionableName> brands;
-	protected static Set<String> pointingMethods;
-	protected static Map<CapabilityValue, Set<String>> devicesByCapability;
-	
+	protected static KnownDevices knownDevices;
+
+	private static Log _log = LogFactoryUtil.getLog(DevicesUtil.class);
+
+
+//	public void afterPropertiesSet() {
+//		refresh();
+//	}
+
+
+	/**
+	 * Refreshes the list of know devices from {@link DeviceRecognitionProvider}
+	 */
 	public static void refresh() {
-		operatingSystems = new TreeSet<VersionableName>();
-		browsers = new TreeSet<VersionableName>();
-		brands = new TreeSet<VersionableName>();
-		pointingMethods = new TreeSet<String>();
-		devicesByCapability = new HashMap<CapabilityValue, Set<String>>();
-
-		for (DeviceRecognitionProvider provider : deviceRecognitionProviders) {
-			operatingSystems.addAll(provider.getOperatingSystems());
-			browsers.addAll(provider.getBrowsers());
-			brands.addAll(provider.getBrands());
-			pointingMethods.addAll(provider.getPointingMethods());
-			devicesByCapability.putAll(provider.getDevicesByCapabilities());
-		}
-	}
-	
-	public static void registerDeviceRecognitionProvider (DeviceRecognitionProvider provider) {
-		if (provider != null) deviceRecognitionProviders.add(provider);
+		knownDevices = _deviceRecognitionProvider.getKnownDevices();
 	}
 
-	public static void unregisterDeviceRecognitionProvider (DeviceRecognitionProvider provider) {
-		if (provider != null) deviceRecognitionProviders.remove(provider);
-	}
-	
+
+	/**
+	 * Returns all devices having given capability value
+	 * 
+	 * @param capabilityValue the name and value of the capability
+	 * @return all devices having given capability value
+	 */
 	public static Set<String> getDeviceIdsByCapabilityValue(CapabilityValue capabilityValue) {
-		if (capabilityValue == null) return null;
-		return Collections.unmodifiableSet(devicesByCapability.get(capabilityValue));
+		if (capabilityValue != null && knownDevices.getDevicesByCapabilities() != null) {
+			return Collections.unmodifiableSet(knownDevices.getDevicesByCapabilities().get(capabilityValue));
+		}
+		return null;
 	}
+
 
 	public static Set<VersionableName> getBrands() {
-		if (brands == null) return null;
-		return Collections.unmodifiableSet(brands) ;
+		if (knownDevices == null || knownDevices.getBrands() == null) return null;
+		return Collections.unmodifiableSet(knownDevices.getBrands());
 	}
+
 
 	public static Set<VersionableName> getOperatingSystems() {
-		if (operatingSystems == null) return null;
-		return Collections.unmodifiableSet(operatingSystems) ;
+		if (knownDevices == null || knownDevices.getOperatingSystems() == null) return null;
+		return Collections.unmodifiableSet(knownDevices.getOperatingSystems());
 	}
+
 
 	public static Set<VersionableName> getBrowsers() {
-		if (browsers == null) return null;
-		return Collections.unmodifiableSet(browsers);
+		if (knownDevices == null || knownDevices.getBrowsers() == null) return null;
+		return Collections.unmodifiableSet(knownDevices.getBrowsers());
 	}
+
 
 	public static Set<String> getPointingMethods() {
-		if (pointingMethods == null) return null;
-		return Collections.unmodifiableSet(pointingMethods);
+		if (knownDevices == null || knownDevices.getPointingMethods() == null) return null;
+		return Collections.unmodifiableSet(knownDevices.getPointingMethods());
 	}
 
-	
+
 	public static Device getDeviceFromRequest(HttpServletRequest request) {
-		Device device = null;
-		for (DeviceRecognitionProvider provider : deviceRecognitionProviders) {
-			device = provider.getDeviceFromRequest(request);
-			if (device != null) break;
+		if (_deviceRecognitionProvider == null) {
+			_log.warn("No device recognition provider added to DeviceUtil !!!");
+			return null;
 		}
-		return device;
+		return _deviceRecognitionProvider.getDeviceFromRequest(request);
+	}
+
+
+	public void setDeviceRecognitionProvider(DeviceRecognitionProvider deviceRecognitionProvider) {
+		_deviceRecognitionProvider = deviceRecognitionProvider;
 	}
 
 }

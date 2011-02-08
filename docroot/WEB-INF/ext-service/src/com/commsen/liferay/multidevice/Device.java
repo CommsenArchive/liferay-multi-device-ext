@@ -1,78 +1,117 @@
+/**
+ *	This file is part of multi-device portal extension for Liferay.
+ *	
+ * Multi-device portal extension for Liferay is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Multi-device portal extension for Liferay is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
+ */
 package com.commsen.liferay.multidevice;
 
 import java.util.Map;
 
-public class Device {
+/**
+ * Represents user's device as recognized by {@link DeviceRecognitionProvider}
+ * 
+ * @author Milen Dyankov
+ * 
+ */
+public interface Device {
 
-	private Map<String, String> capabilities;
+	/**
+	 * Provides map of all capabilities known to {@link DeviceRecognitionProvider}
+	 * 
+	 * @return map of all capabilities known to {@link DeviceRecognitionProvider}
+	 */
+	public abstract Map<String, String> getCapabilities();
 
-	public Device(Map<String, String> capabilities) {
-		super();
-		this.capabilities = capabilities;
-	} 
-	
-	public Map<String, String> getCapabilities() {
-		return capabilities;
-	}
 
-	public String getCapability(String name) {
-		if (capabilities == null) return null;
-		return capabilities.get(name);
-	}
-	
-	public String getBrand() {
-		if (capabilities == null) return null;
-		return capabilities.get("brand_name");
-	}
+	/**
+	 * Gets the value of given capability for this device
+	 * 
+	 * @param name the name of the capability
+	 * @return the value of this capability for this device
+	 */
+	public abstract String getCapability(String name);
 
-	public String getModel() {
-		if (capabilities == null) return null;
-		return capabilities.get("model_name");
-	}
 
-	public String getOS() {
-		if (capabilities == null) return null;
-		return capabilities.get("device_os");
-	}
-	public String getOSVersion() {
-		if (capabilities == null) return null;
-		return capabilities.get("device_os_version");
-	}
-	public String getBrowser() {
-		if (capabilities == null) return null;
-		return capabilities.get("mobile_browser");
-	}
-	public String getBrowserVersion() {
-		if (capabilities == null) return null;
-		return capabilities.get("mobile_browser_version");
-	}
-	public String getPointingMethod() {
-		if (capabilities == null) return null;
-		return capabilities.get("pointing_method");
-	}
-	public boolean isTablet() {
-		if (capabilities == null) return false;
-		return Boolean.parseBoolean(capabilities.get("is_tablet"));
-	}
-	public boolean hasQwertyKeyboard() {
-		if (capabilities == null) return false;
-		return Boolean.parseBoolean(capabilities.get("has_qwerty_keyboard"));
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder("Device(")
-		.append("brand:").append(getBrand())
-		.append(", model:").append(getModel())
-		.append(", os:").append(getOS())
-		.append(", osVersion:").append(getOSVersion())
-		.append(", browser:").append(getBrowser())
-		.append(", browserVersion:").append(getBrowserVersion())
-		.append(", pointingMethod:").append(getPointingMethod())
-		.append(", isTablet:").append(isTablet())
-		.append(", hasQwertyKeyboard:").append(hasQwertyKeyboard())
-		.append(")");
-		return sb.toString();
-	}
+	/**
+	 * Returns device's brand name
+	 * 
+	 * @return device's brand name
+	 */
+	public abstract String getBrand();
+
+
+	/**
+	 * Returns device's model name
+	 * 
+	 * @return device's model name
+	 */
+	public abstract String getModel();
+
+
+	/**
+	 * Returns operating system's name for this device
+	 * 
+	 * @return operating system's name for this device
+	 */
+	public abstract String getOS();
+
+
+	/**
+	 * Returns operating system's version for this device
+	 * 
+	 * @return operating system's version for this device
+	 */
+	public abstract String getOSVersion();
+
+
+	/**
+	 * Returns web browser's name for this device
+	 * 
+	 * @return web browser's name for this device
+	 */
+	public abstract String getBrowser();
+
+
+	/**
+	 * Returns web browser's version for this device
+	 * 
+	 * @return web browser's version for this device
+	 */
+	public abstract String getBrowserVersion();
+
+
+	/**
+	 * Provides the recognized pointing method (touchscreen, trackball, ...)
+	 * 
+	 * @return the recognized pointing method
+	 */
+	public abstract String getPointingMethod();
+
+
+	/**
+	 * Returns <code>true</code> if device is tablet and <code>false</code> otherwise
+	 * 
+	 * @return <code>true</code> if device is tablet and <code>false</code> otherwise
+	 */
+	public abstract boolean isTablet();
+
+
+	/**
+	 * Returns <code>true</code> if device has QWERTY keyboard and <code>false</code> otherwise
+	 * 
+	 * @return <code>true</code> if device has QWERTY keyboard and <code>false</code> otherwise
+	 */
+	public abstract boolean hasQwertyKeyboard();
 
 }

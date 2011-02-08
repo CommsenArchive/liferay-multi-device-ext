@@ -1,26 +1,47 @@
+/**
+ *	This file is part of multi-device portal extension for Liferay.
+ *	
+ * Multi-device portal extension for Liferay is free software: you can redistribute it and/or modify 
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * Multi-device portal extension for Liferay is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
+ */
 package com.commsen.liferay.multidevice;
-
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.commsen.liferay.multidevice.CapabilityValue;
-import com.commsen.liferay.multidevice.Device;
-import com.commsen.liferay.multidevice.VersionableName;
-
+/**
+ * Contract for device recognition providers. Implementors should be able to provide information
+ * about all known devices and must be able to recognize user's device form provided 
+ * {@link HttpServletRequest} object.
+ * 
+ * @author Milen Dyankov
+ * 
+ */
 public interface DeviceRecognitionProvider {
 
-	public Map<CapabilityValue, Set<String>> getDevicesByCapabilities ();
+	/**
+	 * Returns all known devices for this provider
+	 * 
+	 * @return all known devices for this provider
+	 */
+	public KnownDevices getKnownDevices();
 
-	public Set<VersionableName> getBrands();
 
-	public Set<VersionableName> getOperatingSystems();
-
-	public Set<VersionableName> getBrowsers();
-
-	public Set<String> getPointingMethods();
-
+	/**
+	 * Returns user's device as recognized from provided {@link HttpServletRequest}
+	 * 
+	 * @param request the request
+	 * @return user's device as recognized from provided {@link HttpServletRequest}
+	 */
 	public Device getDeviceFromRequest(HttpServletRequest request);
-	
+
 }

@@ -37,8 +37,6 @@ import org.apache.struts.Globals;
 
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.DevicesUtil;
-import com.commsen.liferay.multidevice.model.ThemeRule;
-import com.commsen.liferay.multidevice.service.ThemeRuleLocalServiceUtil;
 import com.liferay.portal.LayoutPermissionException;
 import com.liferay.portal.NoSuchGroupException;
 import com.liferay.portal.NoSuchLayoutException;
@@ -1377,24 +1375,25 @@ public class ServicePreActionExt extends Action {
 			
 			Device device = DevicesUtil.getDeviceFromRequest(request);
 			System.out.println(" Device is: " + device); 
-			List<ThemeRule> themeRules = ThemeRuleLocalServiceUtil.getMatchingRules(companyId, group.getGroupId(), device);
-
-			if (!themeRules.isEmpty()) {
-		
-				ThemeRule rule = themeRules.get(0);
-				System.out.println("\n Matching rule is: \n\t\t" + rule.asText());
-				
-				theme = ThemeLocalServiceUtil.getTheme(companyId, rule.getThemeId(), false);
-				String colorSchemeId = rule.getColorSchemeId();
-				if (StringUtils.isBlank(colorSchemeId)) {
-					colorSchemeId = ColorSchemeImpl.getDefaultRegularColorSchemeId();
-				}
-				colorScheme = ThemeLocalServiceUtil.getColorScheme(companyId, theme.getThemeId(), colorSchemeId, false);
-				
-				System.out.println("Changing theme to " + theme.getName() + " and color scheme to " + colorScheme.getName());
-			
-			}
-			else if (layout != null) {
+//			List<ThemeRule> themeRules = ThemeRuleLocalServiceUtil.getMatchingRules(companyId, group.getGroupId(), device);
+//
+//			if (!themeRules.isEmpty()) {
+//		
+//				ThemeRule rule = themeRules.get(0);
+//				System.out.println("\n Matching rule is: \n\t\t" + rule.asText());
+//				
+//				theme = ThemeLocalServiceUtil.getTheme(companyId, rule.getThemeId(), false);
+//				String colorSchemeId = rule.getColorSchemeId();
+//				if (StringUtils.isBlank(colorSchemeId)) {
+//					colorSchemeId = ColorSchemeImpl.getDefaultRegularColorSchemeId();
+//				}
+//				colorScheme = ThemeLocalServiceUtil.getColorScheme(companyId, theme.getThemeId(), colorSchemeId, false);
+//				
+//				System.out.println("Changing theme to " + theme.getName() + " and color scheme to " + colorScheme.getName());
+//			
+//			}
+//			else 
+				if (layout != null) {
 				if (wapTheme) {
 					theme = layout.getWapTheme();
 					colorScheme = layout.getWapColorScheme();
