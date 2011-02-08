@@ -35,22 +35,7 @@ public class DevicesUtil {
 
 	protected static DeviceRecognitionProvider _deviceRecognitionProvider;
 
-	protected static KnownDevices knownDevices;
-
 	private static Log _log = LogFactoryUtil.getLog(DevicesUtil.class);
-
-
-//	public void afterPropertiesSet() {
-//		refresh();
-//	}
-
-
-	/**
-	 * Refreshes the list of know devices from {@link DeviceRecognitionProvider}
-	 */
-	public static void refresh() {
-		knownDevices = _deviceRecognitionProvider.getKnownDevices();
-	}
 
 
 	/**
@@ -60,42 +45,31 @@ public class DevicesUtil {
 	 * @return all devices having given capability value
 	 */
 	public static Set<String> getDeviceIdsByCapabilityValue(CapabilityValue capabilityValue) {
-		if (capabilityValue != null && knownDevices.getDevicesByCapabilities() != null) {
-			return Collections.unmodifiableSet(knownDevices.getDevicesByCapabilities().get(capabilityValue));
-		}
-		return null;
+		return Collections.unmodifiableSet(_deviceRecognitionProvider.getKnownDevices().getDevicesByCapabilities().get(capabilityValue));
 	}
 
 
 	public static Set<VersionableName> getBrands() {
-		if (knownDevices == null || knownDevices.getBrands() == null) return null;
-		return Collections.unmodifiableSet(knownDevices.getBrands());
+		return Collections.unmodifiableSet(_deviceRecognitionProvider.getKnownDevices().getBrands());
 	}
 
 
 	public static Set<VersionableName> getOperatingSystems() {
-		if (knownDevices == null || knownDevices.getOperatingSystems() == null) return null;
-		return Collections.unmodifiableSet(knownDevices.getOperatingSystems());
+		return Collections.unmodifiableSet(_deviceRecognitionProvider.getKnownDevices().getOperatingSystems());
 	}
 
 
 	public static Set<VersionableName> getBrowsers() {
-		if (knownDevices == null || knownDevices.getBrowsers() == null) return null;
-		return Collections.unmodifiableSet(knownDevices.getBrowsers());
+		return Collections.unmodifiableSet(_deviceRecognitionProvider.getKnownDevices().getBrowsers());
 	}
 
 
 	public static Set<String> getPointingMethods() {
-		if (knownDevices == null || knownDevices.getPointingMethods() == null) return null;
-		return Collections.unmodifiableSet(knownDevices.getPointingMethods());
+		return Collections.unmodifiableSet(_deviceRecognitionProvider.getKnownDevices().getPointingMethods());
 	}
 
 
 	public static Device getDeviceFromRequest(HttpServletRequest request) {
-		if (_deviceRecognitionProvider == null) {
-			_log.warn("No device recognition provider added to DeviceUtil !!!");
-			return null;
-		}
 		return _deviceRecognitionProvider.getDeviceFromRequest(request);
 	}
 

@@ -14,16 +14,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
  */
-package com.commsen.liferay.multidevice;
+package com.commsen.liferay.multidevice.command;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.messaging.MessageBus;
 
 /**
- * Represents a "get known devices" command send over Liferay's {@link MessageBus}
+ * Represents a "get device from request" command send over Liferay's {@link MessageBus}
  * 
  * @author Milen Dyankov
- *
+ * 
  */
-public class KnownDevicesCommand {
+public class DeviceFromRequestCommand {
+
+	private HttpServletRequest request;
+
+
+	public DeviceFromRequestCommand(HttpServletRequest request) throws IllegalArgumentException {
+		if (request == null) throw new IllegalArgumentException("Request can not be null!");
+		this.request = request;
+	}
+
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
 
 }

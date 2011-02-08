@@ -17,11 +17,17 @@
 package com.commsen.liferay.multidevice;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
 import com.commsen.liferay.multidevice.VersionableName;
 
+/**
+ * 
+ * @author Milen Dyankov
+ *
+ */
 public class VersionableNameImpl implements VersionableName {
 
 	private String name;
@@ -35,8 +41,14 @@ public class VersionableNameImpl implements VersionableName {
 	}
 
 
+	public VersionableNameImpl(String name, String version) {
+		this(name, new HashSet<String>());
+		this.versions.add(version);
+	}
+
+
 	public VersionableNameImpl(String name) {
-		this(name, null);
+		this(name, (Set<String>) null);
 	}
 
 

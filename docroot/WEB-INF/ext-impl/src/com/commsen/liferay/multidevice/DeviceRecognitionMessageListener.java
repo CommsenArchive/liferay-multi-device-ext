@@ -16,6 +16,8 @@
  */
 package com.commsen.liferay.multidevice;
 
+import com.commsen.liferay.multidevice.command.DeviceFromRequestCommand;
+import com.commsen.liferay.multidevice.command.KnownDevicesCommand;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.MessageListener;
@@ -38,7 +40,6 @@ public class DeviceRecognitionMessageListener implements MessageListener {
 		if (payload instanceof KnownDevicesCommand) {
 			Message response = MessageBusUtil.createResponseMessage(message);
 			Object knownDevices = deviceRecognitionProvider.getKnownDevices();
-			if (knownDevices == null) knownDevices = new Object();
 			response.setPayload(knownDevices);
 			MessageBusUtil.sendMessage(message.getResponseDestinationName(), response);
 			return;
@@ -48,7 +49,6 @@ public class DeviceRecognitionMessageListener implements MessageListener {
 			DeviceFromRequestCommand deviceFromRequestCommand = (DeviceFromRequestCommand)payload;
 			Message response = MessageBusUtil.createResponseMessage(message);
 			Object device = deviceRecognitionProvider.getDeviceFromRequest(deviceFromRequestCommand.getRequest());
-			if (device == null) device = new Object();
 			response.setPayload(device);
 			MessageBusUtil.sendMessage(message.getResponseDestinationName(), response);
 			return;

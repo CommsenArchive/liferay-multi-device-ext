@@ -1344,6 +1344,10 @@ public class ServicePreActionExt extends Action {
 		long scopeGroupId = PortalUtil.getScopeGroupId(request);
 		long parentGroupId = PortalUtil.getParentGroupId(scopeGroupId);
 
+		// Device
+		Device device = DevicesUtil.getDeviceFromRequest(request);
+		System.out.println(" Device is: " + device); 
+		
 		// Theme and color scheme
 
 		Theme theme = null;
@@ -1373,8 +1377,6 @@ public class ServicePreActionExt extends Action {
 		}
 		else {
 			
-			Device device = DevicesUtil.getDeviceFromRequest(request);
-			System.out.println(" Device is: " + device); 
 //			List<ThemeRule> themeRules = ThemeRuleLocalServiceUtil.getMatchingRules(companyId, group.getGroupId(), device);
 //
 //			if (!themeRules.isEmpty()) {

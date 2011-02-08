@@ -18,6 +18,8 @@ package com.commsen.liferay.multidevice;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.commsen.liferay.multidevice.command.DeviceFromRequestCommand;
+import com.commsen.liferay.multidevice.command.KnownDevicesCommand;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.MessageBusException;

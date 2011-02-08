@@ -16,31 +16,23 @@
  */
 package com.commsen.liferay.multidevice;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
+ * Abstract class containing common methods for all devices
  * 
  * @author Milen Dyankov
- *
+ * 
  */
-public class DefaultDeviceRecognitionProvider implements DeviceRecognitionProvider {
-
-	private static Log _log = LogFactoryUtil.getLog(DefaultDeviceRecognitionProvider.class);
+public abstract class AbstractDevice implements Device {
 
 	@Override
-	public KnownDevices getKnownDevices() {
-		_log.warn("DEVICE RECOGNITION PROVIDER NOT INSTALLED! LIST OF KNOWN DEVICES IS NOT AVAILABLE!");
-		return NoKnownDevices.getInstance();
-	}
-
-
-	@Override
-	public Device getDeviceFromRequest(HttpServletRequest request) {
-		_log.warn("DEVICE RECOGNITION PROVIDER NOT INSTALLED! UNABLE TO RECOGNIZE USER'S DEVICE!");
-		return UnknownDevice.getInstance();
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Device(").append("brand:").append(getBrand()).append(", model:")
+		        .append(getModel()).append(", os:").append(getOS()).append(", osVersion:").append(getOSVersion())
+		        .append(", browser:").append(getBrowser()).append(", browserVersion:").append(getBrowserVersion())
+		        .append(", pointingMethod:").append(getPointingMethod()).append(", isTablet:").append(isTablet())
+		        .append(", hasQwertyKeyboard:").append(hasQwertyKeyboard()).append(")");
+		return sb.toString();
 	}
 
 }
