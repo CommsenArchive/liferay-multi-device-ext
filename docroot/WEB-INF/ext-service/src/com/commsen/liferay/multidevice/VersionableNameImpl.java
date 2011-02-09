@@ -21,8 +21,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.commsen.liferay.multidevice.VersionableName;
-
 /**
  * 
  * @author Milen Dyankov
@@ -30,6 +28,11 @@ import com.commsen.liferay.multidevice.VersionableName;
  */
 public class VersionableNameImpl implements VersionableName {
 
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
 	private String name;
 	private Set<String> versions;
 

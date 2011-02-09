@@ -21,9 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
 /**
  * This class provides convenient methods for device recognition
  * 
@@ -34,9 +31,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 public class DevicesUtil {
 
 	protected static DeviceRecognitionProvider _deviceRecognitionProvider;
-
-	private static Log _log = LogFactoryUtil.getLog(DevicesUtil.class);
-
 
 	/**
 	 * Returns all devices having given capability value
