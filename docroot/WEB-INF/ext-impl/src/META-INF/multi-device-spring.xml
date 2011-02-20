@@ -25,7 +25,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	>
 	
-	<bean id="com.commsen.liferay.multidevice.DevicesUtil" class="com.commsen.liferay.multidevice.DevicesUtil" depends-on="messagingConfigurator.device_recognition">
+	<!-- device recognition -->
+	<bean id="com.commsen.liferay.multidevice.DevicesUtil" class="com.commsen.liferay.multidevice.DevicesUtil">
 		<property name="deviceRecognitionProvider" ref="com.commsen.liferay.multidevice.DeviceRecognitionProviderDelegate" />
 	</bean>
 
@@ -35,7 +36,7 @@
 	<bean id="com.commsen.liferay.multidevice.DefaultDeviceRecognitionProvider" class="com.commsen.liferay.multidevice.DefaultDeviceRecognitionProvider">
 	</bean>
 	
-	<!-- Messaging -->
+	<!-- device recognition messaging -->
 	
 	<bean id="destination.device_recognition_provider" class="com.liferay.portal.kernel.messaging.ParallelDestination">
 		<property name="name" value="commsen/device_recognition_provider" />
@@ -79,5 +80,63 @@
 			</map>
 		</property>
 	</bean>
+
+	<!-- theme selecting -->
+	
+	<bean id="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil" >
+		<property name="themeSelectingProvider" ref="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate" />
+	</bean>
+
+	<bean id="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate">
+	</bean>
+
+	<bean id="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider" class="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider">
+	</bean>
+
+	<!-- theme selecting messaging -->
+	
+	<bean id="destination.theme_selecting_provider" class="com.liferay.portal.kernel.messaging.ParallelDestination">
+		<property name="name" value="commsen/theme_selecting_provider" />
+	</bean>
+	<bean id="destination.theme_selecting_provider.response" class="com.liferay.portal.kernel.messaging.ParallelDestination">
+		<property name="name" value="commsen/theme_selecting_provider/response" />
+	</bean>
+
+	<bean id="messageListener.theme_selecting" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingMessageListener">
+		<property name="themeSelectingProvider" ref="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider" />
+	</bean>
+
+	<bean id="messagingConfigurator.theme_selecting" class="com.liferay.portal.kernel.messaging.config.DefaultMessagingConfigurator">
+		<property name="specificDestinationEventListener">
+			<map>
+				<entry key="commsen/theme_selecting_provider">
+					<list>
+						<bean class="com.commsen.liferay.multidevice.rules.themes.ThemeSeletingDestinationEventListener">
+							<property name="themeSelectingMessageListener" ref="messageListener.theme_selecting" />
+						</bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+		<property name="destinations">
+			<list>
+				<ref bean="destination.theme_selecting_provider" />
+				<ref bean="destination.theme_selecting_provider.response"/>
+			</list>
+		</property>
+		<property name="messageBus">
+			<ref bean="com.liferay.portal.kernel.messaging.MessageBus" />
+		</property>
+		<property name="messageListeners">
+			<map key-type="java.lang.String" value-type="java.util.List">
+				<entry key="commsen/theme_selecting_provider">
+					<list value-type="com.liferay.portal.kernel.messaging.MessageListener">
+						<ref bean="messageListener.theme_selecting" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	
 </beans>

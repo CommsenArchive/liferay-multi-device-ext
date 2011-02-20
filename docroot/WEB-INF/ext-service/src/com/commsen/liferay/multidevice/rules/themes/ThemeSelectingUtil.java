@@ -15,19 +15,29 @@
  * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
  */
 
-package com.commsen.liferay.multidevice;
+package com.commsen.liferay.multidevice.rules.themes;
+
+import java.util.List;
+
+import com.commsen.liferay.multidevice.Device;
 
 /**
- * 
  * @author Milen Dyankov
  *
  */
-public interface MultideviceConstants {
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER = "commsen/device_recognition_provider";
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER_RESPONSE = "commsen/device_recognition_provider/response";
+public class ThemeSelectingUtil {
 
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER = "commsen/theme_selecting_provider";
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER_RESPONSE = "commsen/theme_selecting_provider/response";
+	protected static ThemeSelectingProvider _themeSelectingProvider;
 
-	public static final String COMMAND_GET_KNOWN_DEVICES = "KNOWN_DEVICES";
+	public static ThemeAndColorScheme getThemeAndColorScheme (Device device, long companyId, long groupId, long layoutId) {
+		return _themeSelectingProvider.getThemeAndColorScheme(device, companyId, groupId, layoutId);
+	}
+
+	public static List<ThemeRuleInfo> getThemeRulesInfo (long companyId, long groupId, long layoutId) {
+		return _themeSelectingProvider.getThemeRulesInfo(companyId, groupId, layoutId);
+	}
+
+	public void setThemeSelectingProvider(ThemeSelectingProvider themeSelectingProvider) {
+    	_themeSelectingProvider = themeSelectingProvider;
+    }
 }

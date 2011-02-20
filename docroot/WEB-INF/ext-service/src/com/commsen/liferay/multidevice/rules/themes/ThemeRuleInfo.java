@@ -15,19 +15,44 @@
  * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
  */
 
-package com.commsen.liferay.multidevice;
+package com.commsen.liferay.multidevice.rules.themes;
 
 /**
- * 
  * @author Milen Dyankov
  *
  */
-public interface MultideviceConstants {
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER = "commsen/device_recognition_provider";
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER_RESPONSE = "commsen/device_recognition_provider/response";
+public class ThemeRuleInfo {
 
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER = "commsen/theme_selecting_provider";
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER_RESPONSE = "commsen/theme_selecting_provider/response";
+	private long id;
 
-	public static final String COMMAND_GET_KNOWN_DEVICES = "KNOWN_DEVICES";
+	private String text;
+	
+	private int priority;
+	
+	private ThemeAndColorScheme themeAndColorScheme;
+
+	
+	public ThemeRuleInfo(long id, String text, int priority, ThemeAndColorScheme themeAndColorScheme) {
+	    super();
+	    this.id = id;
+	    this.text = text;
+	    this.priority = priority;
+	    this.themeAndColorScheme = themeAndColorScheme;
+    }
+
+	public String getText() {
+    	return text;
+    }
+
+	public int getPriority() {
+    	return priority;
+    }
+
+	public ThemeAndColorScheme getThemeAndColorScheme() {
+    	return themeAndColorScheme;
+    }
+
+	public long getId() {
+    	return id;
+    }
 }

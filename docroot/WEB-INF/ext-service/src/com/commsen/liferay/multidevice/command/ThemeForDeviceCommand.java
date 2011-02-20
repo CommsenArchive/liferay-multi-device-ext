@@ -15,19 +15,46 @@
  * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
  */
 
-package com.commsen.liferay.multidevice;
+package com.commsen.liferay.multidevice.command;
+
+import com.commsen.liferay.multidevice.Device;
 
 /**
- * 
  * @author Milen Dyankov
  *
  */
-public interface MultideviceConstants {
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER = "commsen/device_recognition_provider";
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER_RESPONSE = "commsen/device_recognition_provider/response";
+public class ThemeForDeviceCommand {
+	
+	private Device device;
+	
+	private long companyId;
+	
+	private long groupId;
 
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER = "commsen/theme_selecting_provider";
-	public static final String DESTINATION_THEME_SELECTING_PROVIDER_RESPONSE = "commsen/theme_selecting_provider/response";
+	private long layoutId;
 
-	public static final String COMMAND_GET_KNOWN_DEVICES = "KNOWN_DEVICES";
+	
+	public ThemeForDeviceCommand(Device device, long companyId, long groupId, long layoutId) {
+	    super();
+	    this.device = device;
+	    this.companyId = companyId;
+	    this.groupId = groupId;
+	    this.layoutId = layoutId;
+    }
+
+	public Device getDevice() {
+    	return device;
+    }
+
+	public long getCompanyId() {
+    	return companyId;
+    }
+
+	public long getGroupId() {
+    	return groupId;
+    }
+
+	public long getLayoutId() {
+    	return layoutId;
+    }
 }

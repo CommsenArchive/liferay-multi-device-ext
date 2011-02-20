@@ -36,6 +36,8 @@ import org.apache.struts.Globals;
 
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.DevicesUtil;
+import com.commsen.liferay.multidevice.rules.themes.ThemeAndColorScheme;
+import com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil;
 import com.liferay.portal.LayoutPermissionException;
 import com.liferay.portal.NoSuchGroupException;
 import com.liferay.portal.NoSuchLayoutException;
@@ -1376,25 +1378,15 @@ public class ServicePreActionExt extends Action {
 		}
 		else {
 			
-//			List<ThemeRule> themeRules = ThemeRuleLocalServiceUtil.getMatchingRules(companyId, group.getGroupId(), device);
-//
-//			if (!themeRules.isEmpty()) {
-//		
-//				ThemeRule rule = themeRules.get(0);
-//				System.out.println("\n Matching rule is: \n\t\t" + rule.asText());
-//				
-//				theme = ThemeLocalServiceUtil.getTheme(companyId, rule.getThemeId(), false);
-//				String colorSchemeId = rule.getColorSchemeId();
-//				if (StringUtils.isBlank(colorSchemeId)) {
-//					colorSchemeId = ColorSchemeImpl.getDefaultRegularColorSchemeId();
-//				}
-//				colorScheme = ThemeLocalServiceUtil.getColorScheme(companyId, theme.getThemeId(), colorSchemeId, false);
-//				
-//				System.out.println("Changing theme to " + theme.getName() + " and color scheme to " + colorScheme.getName());
-//			
-//			}
-//			else 
-				if (layout != null) {
+			ThemeAndColorScheme themeAndColorScheme = ThemeSelectingUtil.getThemeAndColorScheme(device, companyId, group.getGroupId(), layout.getLayoutId());
+			if (themeAndColorScheme != null && themeAndColorScheme.getThemeId() != null) {
+				theme = themeAndColorScheme.getTheme(companyId);
+				System.out.println("Changing theme to " + theme.getThemeId());
+				if (themeAndColorScheme.getColorSchemeId() != null) {
+					colorScheme = themeAndColorScheme.getColorScheme(companyId);
+					System.out.println("Changing color scheme to " + colorScheme.getColorSchemeId());
+				}
+			} else if (layout != null) { 
 				if (wapTheme) {
 					theme = layout.getWapTheme();
 					colorScheme = layout.getWapColorScheme();
