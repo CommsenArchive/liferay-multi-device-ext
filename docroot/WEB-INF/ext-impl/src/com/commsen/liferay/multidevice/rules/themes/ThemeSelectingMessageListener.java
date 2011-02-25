@@ -36,8 +36,6 @@ public class ThemeSelectingMessageListener implements MessageListener {
 	public void receive(Message message) {
 		Object payload = message.getPayload();
 		
-		System.out.println("\n\n got message: " + payload.getClass().getName());
-
 		if (payload instanceof ThemeForDeviceCommand) {
 			ThemeForDeviceCommand command = (ThemeForDeviceCommand)payload;
 			Message response = MessageBusUtil.createResponseMessage(message);

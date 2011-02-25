@@ -59,7 +59,7 @@ public class CapabilityValue {
 	public boolean equals(Object obj) {
 	    if (obj == null || !(obj instanceof CapabilityValue)) return false;
 	    CapabilityValue other = (CapabilityValue)obj;
-	    return name.equals(other.name) && ((value == null && other.value == null) || value.equals(other.value));
+	    return name.equals(other.name) && ((value == null && other.value == null) || (value != null && value.equals(other.value)));
 	}
 	
 	@Override
