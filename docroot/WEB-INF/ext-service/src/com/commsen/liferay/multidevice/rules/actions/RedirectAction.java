@@ -14,29 +14,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
+package com.commsen.liferay.multidevice.rules.actions;
 
-import java.util.List;
-
-import com.commsen.liferay.multidevice.Device;
 
 /**
  * @author Milen Dyankov
  *
  */
-public class ThemeSelectingUtil {
+public class RedirectAction extends DeviceAction {
 
-	protected static ThemeSelectingProvider _themeSelectingProvider;
+	private String url;
+	
+	public static final String NAME = "redirect"; 
 
-	public static ThemeAndColorScheme getThemeAndColorScheme (Device device, long companyId, long groupId, long layoutId) {
-		return _themeSelectingProvider.getThemeAndColorScheme(device, companyId, groupId, layoutId);
-	}
-
-	public static List<ThemeRuleInfo> getThemeRulesInfo (long companyId, long groupId, long layoutId) {
-		return _themeSelectingProvider.getThemeRulesInfo(companyId, groupId, layoutId);
-	}
-
-	public void setThemeSelectingProvider(ThemeSelectingProvider themeSelectingProvider) {
-    	_themeSelectingProvider = themeSelectingProvider;
+	/**
+	 * 
+	 * @param ruleAction
+	 * @param themeAndColorScheme
+	 */
+	public RedirectAction(String url) {
+	    this.url = url;
     }
+
+	public String getUrl() {
+    	return url;
+    }
+
 }

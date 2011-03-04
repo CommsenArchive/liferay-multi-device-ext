@@ -14,19 +14,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice;
+package com.commsen.liferay.multidevice.rules;
+
+import com.commsen.liferay.multidevice.rules.actions.DeviceAction;
+
 
 /**
- * 
  * @author Milen Dyankov
  *
  */
-public interface MultideviceConstants {
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER = "commsen/device_recognition_provider";
-	public static final String DESTINATION_DEVICE_RECOGNITION_PROVIDER_RESPONSE = "commsen/device_recognition_provider/response";
+public class RuleInfo {
 
-	public static final String DESTINATION_DEVICE_RULES_PROVIDER = "commsen/device_rules_provider";
-	public static final String DESTINATION_DEVICE_RULES_PROVIDER_RESPONSE = "commsen/device_rules_provider/response";
+	private long id;
 
-	public static final String COMMAND_GET_KNOWN_DEVICES = "KNOWN_DEVICES";
+	private String text;
+	
+	private int priority;
+	
+	private DeviceAction deviceAction;
+
+	
+	public RuleInfo(long id, String text, int priority, DeviceAction deviceAction) {
+	    super();
+	    this.id = id;
+	    this.text = text;
+	    this.priority = priority;
+	    this.deviceAction = deviceAction;
+    }
+
+	public String getText() {
+    	return text;
+    }
+
+	public int getPriority() {
+    	return priority;
+    }
+
+	public DeviceAction getDeviceAction() {
+    	return deviceAction;
+    }
+
+	public long getId() {
+    	return id;
+    }
 }

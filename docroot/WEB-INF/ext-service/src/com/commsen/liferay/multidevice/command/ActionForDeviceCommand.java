@@ -14,10 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
-
-import java.util.Collections;
-import java.util.List;
+package com.commsen.liferay.multidevice.command;
 
 import com.commsen.liferay.multidevice.Device;
 
@@ -25,22 +22,13 @@ import com.commsen.liferay.multidevice.Device;
  * @author Milen Dyankov
  *
  */
-public class DefaultThemeSelectingProvider implements ThemeSelectingProvider {
-
-	/* (non-Javadoc)
-     * @see com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProvider#getThemeAndColorScheme(com.commsen.liferay.multidevice.Device)
-     */
-    @Override
-    public ThemeAndColorScheme getThemeAndColorScheme(Device device, long companyId, long groupId, long pageId) {
-    	return new ThemeAndColorScheme(null, null);
+public class ActionForDeviceCommand extends DeviceCommand {
+	
+	public ActionForDeviceCommand(Device device, long companyId, long groupId, long layoutId) {
+	    super();
+	    this.device = device;
+	    this.companyId = companyId;
+	    this.groupId = groupId;
+	    this.layoutId = layoutId;
     }
-
-	/* (non-Javadoc)
-     * @see com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProvider#getThemeRulesInfo(long, long, long)
-     */
-    @Override
-    public List<ThemeRuleInfo> getThemeRulesInfo(long companyId, long groupId, long pageId) {
-	    return Collections.emptyList();
-    }
-
 }

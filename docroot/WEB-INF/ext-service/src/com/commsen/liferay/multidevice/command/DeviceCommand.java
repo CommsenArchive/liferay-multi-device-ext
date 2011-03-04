@@ -16,24 +16,21 @@
  */
 package com.commsen.liferay.multidevice.command;
 
+import com.commsen.liferay.multidevice.Device;
 
 /**
  * @author Milen Dyankov
  *
  */
-public class ThemeRulesListCommand {
-	
-	private long companyId;
-	
-	private long groupId;
+public abstract class DeviceCommand {
 
-	private long layoutId;
+	protected Device device;
+	protected long companyId;
+	protected long groupId;
+	protected long layoutId;
 
-	
-	public ThemeRulesListCommand(long companyId, long groupId, long layoutId) {
-	    this.companyId = companyId;
-	    this.groupId = groupId;
-	    this.layoutId = layoutId;
+	public Device getDevice() {
+    	return device;
     }
 
 	public long getCompanyId() {
@@ -47,4 +44,5 @@ public class ThemeRulesListCommand {
 	public long getLayoutId() {
     	return layoutId;
     }
+
 }

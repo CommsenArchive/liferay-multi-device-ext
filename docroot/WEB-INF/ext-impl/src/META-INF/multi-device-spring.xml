@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
- *	This file is part of multi-device portal extension for Liferay.
+ * Copyright (c) COMMSEN International. All rights reserved.
  *	
- * Multi-device portal extension for Liferay is free software: you can redistribute it and/or modify 
+ * This library is free software: you can redistribute it and/or modify 
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  * 
- * Multi-device portal extension for Liferay is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public License
- * along with multi-device portal extension for Liferay.  If not, see <http://www.gnu.org/licenses/lgpl.html>.
+ * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  -->
 
 <beans 
@@ -81,38 +81,38 @@
 		</property>
 	</bean>
 
-	<!-- theme selecting -->
+	<!-- device rules -->
 	
-	<bean id="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil" >
-		<property name="themeSelectingProvider" ref="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate" />
+	<bean id="com.commsen.liferay.multidevice.rules.DeviceRulesUtil" class="com.commsen.liferay.multidevice.rules.DeviceRulesUtil" >
+		<property name="deviceRulesProvider" ref="com.commsen.liferay.multidevice.rules.DeviceRulesProviderDelegate" />
 	</bean>
 
-	<bean id="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingProviderDelegate">
+	<bean id="com.commsen.liferay.multidevice.rules.DeviceRulesProviderDelegate" class="com.commsen.liferay.multidevice.rules.DeviceRulesProviderDelegate">
 	</bean>
 
-	<bean id="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider" class="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider">
+	<bean id="com.commsen.liferay.multidevice.rules.DefaultDeviceRulesProvider" class="com.commsen.liferay.multidevice.rules.DefaultDeviceRulesProvider">
 	</bean>
 
-	<!-- theme selecting messaging -->
+	<!-- device rules messaging -->
 	
-	<bean id="destination.theme_selecting_provider" class="com.liferay.portal.kernel.messaging.ParallelDestination">
-		<property name="name" value="commsen/theme_selecting_provider" />
+	<bean id="destination.device_rules_provider" class="com.liferay.portal.kernel.messaging.ParallelDestination">
+		<property name="name" value="commsen/device_rules_provider" />
 	</bean>
-	<bean id="destination.theme_selecting_provider.response" class="com.liferay.portal.kernel.messaging.ParallelDestination">
-		<property name="name" value="commsen/theme_selecting_provider/response" />
-	</bean>
-
-	<bean id="messageListener.theme_selecting" class="com.commsen.liferay.multidevice.rules.themes.ThemeSelectingMessageListener">
-		<property name="themeSelectingProvider" ref="com.commsen.liferay.multidevice.rules.themes.DefaultThemeSelectingProvider" />
+	<bean id="destination.device_rules_provider.response" class="com.liferay.portal.kernel.messaging.ParallelDestination">
+		<property name="name" value="commsen/device_rules_provider/response" />
 	</bean>
 
-	<bean id="messagingConfigurator.theme_selecting" class="com.liferay.portal.kernel.messaging.config.DefaultMessagingConfigurator">
+	<bean id="messageListener.device_rules" class="com.commsen.liferay.multidevice.rules.DeviceRulesMessageListener">
+		<property name="deviceRulesProvider" ref="com.commsen.liferay.multidevice.rules.DefaultDeviceRulesProvider" />
+	</bean>
+
+	<bean id="messagingConfigurator.device_rules" class="com.liferay.portal.kernel.messaging.config.DefaultMessagingConfigurator">
 		<property name="specificDestinationEventListener">
 			<map>
-				<entry key="commsen/theme_selecting_provider">
+				<entry key="commsen/device_rules_provider">
 					<list>
-						<bean class="com.commsen.liferay.multidevice.rules.themes.ThemeSeletingDestinationEventListener">
-							<property name="themeSelectingMessageListener" ref="messageListener.theme_selecting" />
+						<bean class="com.commsen.liferay.multidevice.rules.DeviceRulesDestinationEventListener">
+							<property name="deviceRulesMessageListener" ref="messageListener.device_rules" />
 						</bean>
 					</list>
 				</entry>
@@ -120,8 +120,8 @@
 		</property>
 		<property name="destinations">
 			<list>
-				<ref bean="destination.theme_selecting_provider" />
-				<ref bean="destination.theme_selecting_provider.response"/>
+				<ref bean="destination.device_rules_provider" />
+				<ref bean="destination.device_rules_provider.response"/>
 			</list>
 		</property>
 		<property name="messageBus">
@@ -129,14 +129,12 @@
 		</property>
 		<property name="messageListeners">
 			<map key-type="java.lang.String" value-type="java.util.List">
-				<entry key="commsen/theme_selecting_provider">
+				<entry key="commsen/device_rules_provider">
 					<list value-type="com.liferay.portal.kernel.messaging.MessageListener">
-						<ref bean="messageListener.theme_selecting" />
+						<ref bean="messageListener.device_rules" />
 					</list>
 				</entry>
 			</map>
 		</property>
 	</bean>
-
-	
 </beans>

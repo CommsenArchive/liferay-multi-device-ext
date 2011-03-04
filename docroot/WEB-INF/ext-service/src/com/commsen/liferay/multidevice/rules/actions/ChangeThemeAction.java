@@ -14,46 +14,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.command;
+package com.commsen.liferay.multidevice.rules.actions;
 
-import com.commsen.liferay.multidevice.Device;
+import com.commsen.liferay.multidevice.rules.ThemeAndColorScheme;
+
 
 /**
  * @author Milen Dyankov
  *
  */
-public class ThemeForDeviceCommand {
+public class ChangeThemeAction extends DeviceAction {
+
+	private ThemeAndColorScheme themeAndColorScheme;
+
+	public static final String NAME = "change theme"; 
 	
-	private Device device;
-	
-	private long companyId;
-	
-	private long groupId;
-
-	private long layoutId;
-
-	
-	public ThemeForDeviceCommand(Device device, long companyId, long groupId, long layoutId) {
-	    super();
-	    this.device = device;
-	    this.companyId = companyId;
-	    this.groupId = groupId;
-	    this.layoutId = layoutId;
+	/**
+	 * 
+	 * @param ruleAction
+	 * @param themeAndColorScheme
+	 */
+	public ChangeThemeAction(ThemeAndColorScheme themeAndColorScheme) {
+	    this.themeAndColorScheme = themeAndColorScheme;
     }
 
-	public Device getDevice() {
-    	return device;
+	public ThemeAndColorScheme getThemeAndColorScheme() {
+    	return themeAndColorScheme;
     }
 
-	public long getCompanyId() {
-    	return companyId;
-    }
-
-	public long getGroupId() {
-    	return groupId;
-    }
-
-	public long getLayoutId() {
-    	return layoutId;
-    }
 }

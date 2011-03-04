@@ -14,11 +14,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
+package com.commsen.liferay.multidevice.rules;
 
-import com.commsen.liferay.multidevice.Device;
-import com.commsen.liferay.multidevice.command.ThemeForDeviceCommand;
-import com.commsen.liferay.multidevice.command.ThemeRulesListCommand;
+import com.commsen.liferay.multidevice.command.ActionForDeviceCommand;
+import com.commsen.liferay.multidevice.command.RulesListCommand;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.MessageListener;
@@ -28,36 +27,36 @@ import com.liferay.portal.kernel.messaging.MessageListener;
  * @author Milen Dyankov
  *
  */
-public class ThemeSelectingMessageListener implements MessageListener {
+public class DeviceRulesMessageListener implements MessageListener {
 
-	private ThemeSelectingProvider themeSelectingProvider;
+	private DeviceRulesProvider deviceRulesProvider;
 	
 	@Override
 	public void receive(Message message) {
 		Object payload = message.getPayload();
 		
-		if (payload instanceof ThemeForDeviceCommand) {
-			ThemeForDeviceCommand command = (ThemeForDeviceCommand)payload;
+		if (payload instanceof ActionForDeviceCommand) {
+			ActionForDeviceCommand command = (ActionForDeviceCommand)payload;
 			Message response = MessageBusUtil.createResponseMessage(message);
-			Object themeAndColorScheme = themeSelectingProvider.getThemeAndColorScheme(command.getDevice(), command.getCompanyId(), command.getGroupId(), command.getLayoutId());
-			response.setPayload(themeAndColorScheme);
+			Object action = deviceRulesProvider.getAction(command.getDevice(), command.getCompanyId(), command.getGroupId(), command.getLayoutId());
+			response.setPayload(action);
 			MessageBusUtil.sendMessage(message.getResponseDestinationName(), response);
 			return;
 		}
 
-		if (payload instanceof ThemeRulesListCommand) {
-			ThemeRulesListCommand command = (ThemeRulesListCommand)payload;
+		if (payload instanceof RulesListCommand) {
+			RulesListCommand command = (RulesListCommand)payload;
 			Message response = MessageBusUtil.createResponseMessage(message);
-			Object themeRulesList = themeSelectingProvider.getThemeRulesInfo(command.getCompanyId(), command.getGroupId(), command.getLayoutId());
-			response.setPayload(themeRulesList);
+			Object rulesList = deviceRulesProvider.getRules(command.getCompanyId(), command.getGroupId(), command.getLayoutId());
+			response.setPayload(rulesList);
 			MessageBusUtil.sendMessage(message.getResponseDestinationName(), response);
 			return;
 		}
 	
 	}
 
-	public void setThemeSelectingProvider(ThemeSelectingProvider themeSelectingProvider) {
-    	this.themeSelectingProvider = themeSelectingProvider;
+	public void setDeviceRulesProvider(DeviceRulesProvider deviceRulesProvider) {
+    	this.deviceRulesProvider = deviceRulesProvider;
     }
 
 

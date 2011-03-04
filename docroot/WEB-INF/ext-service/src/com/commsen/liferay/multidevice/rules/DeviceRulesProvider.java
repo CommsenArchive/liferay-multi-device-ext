@@ -14,18 +14,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
+package com.commsen.liferay.multidevice.rules;
 
 import java.util.List;
 
 import com.commsen.liferay.multidevice.Device;
+import com.commsen.liferay.multidevice.rules.actions.DeviceAction;
 
 /**
  * 
  * @author Milen Dyankov
  * 
  */
-public interface ThemeSelectingProvider {
+public interface DeviceRulesProvider {
 
 	/**
 	 * Returns theme and color scheme based on rules configured for given device
@@ -37,7 +38,7 @@ public interface ThemeSelectingProvider {
 	 * 
 	 * @return portal theme and color scheme to apply
 	 */
-	public ThemeAndColorScheme getThemeAndColorScheme(Device device, long companyId, long groupId, long layoutId);
+	public DeviceAction getAction(Device device, long companyId, long groupId, long layoutId);
 
 
 	/**
@@ -49,6 +50,6 @@ public interface ThemeSelectingProvider {
 	 * 
 	 * @return list of rules all matching current company, group and layout.
 	 */
-	public List<ThemeRuleInfo> getThemeRulesInfo(long companyId, long groupId, long layoutId);
+	public List<RuleInfo> getRules(long companyId, long groupId, long layoutId);
 
 }

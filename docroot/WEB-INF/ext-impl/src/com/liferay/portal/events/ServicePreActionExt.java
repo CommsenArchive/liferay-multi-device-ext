@@ -36,8 +36,12 @@ import org.apache.struts.Globals;
 
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.DevicesUtil;
-import com.commsen.liferay.multidevice.rules.themes.ThemeAndColorScheme;
-import com.commsen.liferay.multidevice.rules.themes.ThemeSelectingUtil;
+import com.commsen.liferay.multidevice.rules.DeviceRulesUtil;
+import com.commsen.liferay.multidevice.rules.ThemeAndColorScheme;
+import com.commsen.liferay.multidevice.rules.actions.ChangeThemeAction;
+import com.commsen.liferay.multidevice.rules.actions.DeviceAction;
+import com.commsen.liferay.multidevice.rules.actions.NoAction;
+import com.commsen.liferay.multidevice.rules.actions.RedirectAction;
 import com.liferay.portal.LayoutPermissionException;
 import com.liferay.portal.NoSuchGroupException;
 import com.liferay.portal.NoSuchLayoutException;
@@ -913,6 +917,7 @@ public class ServicePreActionExt extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
+		
 		HttpSession session = request.getSession();
 
 		// Company
@@ -1347,7 +1352,7 @@ public class ServicePreActionExt extends Action {
 
 		// Device
 		Device device = DevicesUtil.getDeviceFromRequest(request);
-		System.out.println(" Device is: " + device); 
+		_log.debug(" Device is: " + device); 
 		
 		// Theme and color scheme
 
@@ -1377,15 +1382,29 @@ public class ServicePreActionExt extends Action {
 			}
 		}
 		else {
-			
-			ThemeAndColorScheme themeAndColorScheme = ThemeSelectingUtil.getThemeAndColorScheme(device, companyId, group.getGroupId(), layout.getLayoutId());
-			if (themeAndColorScheme != null && themeAndColorScheme.getThemeId() != null) {
-				theme = themeAndColorScheme.getTheme(companyId);
-				System.out.println("Changing theme to " + theme.getThemeId());
-				if (themeAndColorScheme.getColorSchemeId() != null) {
-					colorScheme = themeAndColorScheme.getColorScheme(companyId);
-					System.out.println("Changing color scheme to " + colorScheme.getColorSchemeId());
-				}
+			DeviceAction deviceAction = DeviceRulesUtil.getAction(device, companyId, group.getGroupId(), layout.getLayoutId());
+			if (deviceAction != null && !(deviceAction instanceof NoAction)) {
+    			if (deviceAction instanceof ChangeThemeAction) {
+    				ChangeThemeAction changeThemeAction = (ChangeThemeAction)deviceAction;
+    				ThemeAndColorScheme themeAndColorScheme = changeThemeAction.getThemeAndColorScheme();
+    				if (themeAndColorScheme != null && themeAndColorScheme.getThemeId() != null) {
+        				theme = themeAndColorScheme.getTheme(companyId);
+        				_log.debug("Changing theme to " + theme.getThemeId());
+        				if (themeAndColorScheme.getColorSchemeId() != null) {
+        					colorScheme = themeAndColorScheme.getColorScheme(companyId);
+        					_log.debug("Changing color scheme to " + colorScheme.getColorSchemeId());
+        				}
+        			}
+    			}
+    			if (deviceAction instanceof RedirectAction) {
+    				RedirectAction redirectAction = (RedirectAction)deviceAction;
+    				String url = redirectAction.getUrl();
+    				if (url != null && !url.trim().isEmpty()) {
+    					_log.debug("Redirecting to " + url);
+    					response.sendRedirect(url);
+    					return;
+    				}
+    			}
 			} else if (layout != null) { 
 				if (wapTheme) {
 					theme = layout.getWapTheme();

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
+package com.commsen.liferay.multidevice.rules;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.ColorScheme;

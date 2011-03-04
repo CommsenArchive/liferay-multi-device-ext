@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see http://www.gnu.org/licenses/lgpl.html.
  */
-package com.commsen.liferay.multidevice.rules.themes;
+package com.commsen.liferay.multidevice.rules;
 
 import com.commsen.liferay.multidevice.MultideviceConstants;
 import com.liferay.portal.kernel.messaging.BaseDestinationEventListener;
@@ -23,15 +23,15 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 
 /**
  * This destination event listener reacts on register an unregister events. When new
- * {@link ThemeSelectingMessageListener} is registered it removes the one base one. When external
- * {@link ThemeSelectingMessageListener} is removed it registers back the base one.
+ * {@link DeviceRulesMessageListener} is registered it removes the one base one. When external
+ * {@link DeviceRulesMessageListener} is removed it registers back the base one.
  * 
  * @author Milen Dyankov
  * 
  */
-public class ThemeSeletingDestinationEventListener extends BaseDestinationEventListener {
+public class DeviceRulesDestinationEventListener extends BaseDestinationEventListener {
 
-	private ThemeSelectingMessageListener themeSelectingMessageListener;
+	private DeviceRulesMessageListener deviceRulesMessageListener;
 
 
 	@Override
@@ -39,8 +39,8 @@ public class ThemeSeletingDestinationEventListener extends BaseDestinationEventL
 		if (!isProceed(destinationName, messageListener)) {
 			return;
 		}
-		MessageBusUtil.unregisterMessageListener(MultideviceConstants.DESTINATION_THEME_SELECTING_PROVIDER,
-		        themeSelectingMessageListener);
+		MessageBusUtil.unregisterMessageListener(MultideviceConstants.DESTINATION_DEVICE_RULES_PROVIDER,
+		        deviceRulesMessageListener);
 	}
 
 
@@ -49,17 +49,17 @@ public class ThemeSeletingDestinationEventListener extends BaseDestinationEventL
 		if (!isProceed(destinationName, messageListener)) {
 			return;
 		}
-		MessageBusUtil.registerMessageListener(MultideviceConstants.DESTINATION_THEME_SELECTING_PROVIDER,
-		        themeSelectingMessageListener);
+		MessageBusUtil.registerMessageListener(MultideviceConstants.DESTINATION_DEVICE_RULES_PROVIDER,
+		        deviceRulesMessageListener);
 	}
 
 
 
 	protected boolean isProceed(String destinationName, MessageListener messageListener) {
 
-		if ((!destinationName.equals(MultideviceConstants.DESTINATION_THEME_SELECTING_PROVIDER))
-		        || (messageListener == themeSelectingMessageListener)
-		        || !(messageListener instanceof ThemeSelectingMessageListener)) {
+		if ((!destinationName.equals(MultideviceConstants.DESTINATION_DEVICE_RULES_PROVIDER))
+		        || (messageListener == deviceRulesMessageListener)
+		        || !(messageListener instanceof DeviceRulesMessageListener)) {
 
 			return false;
 		} else {
@@ -68,8 +68,8 @@ public class ThemeSeletingDestinationEventListener extends BaseDestinationEventL
 	}
 
 
-	public void setThemeSelectingMessageListener(ThemeSelectingMessageListener themeSelectingMessageListener) {
-    	this.themeSelectingMessageListener = themeSelectingMessageListener;
+	public void setDeviceRulesMessageListener(DeviceRulesMessageListener deviceRulesMessageListener) {
+    	this.deviceRulesMessageListener = deviceRulesMessageListener;
     }
 
 }
