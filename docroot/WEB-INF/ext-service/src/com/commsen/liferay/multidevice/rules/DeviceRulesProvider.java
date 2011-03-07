@@ -18,6 +18,8 @@ package com.commsen.liferay.multidevice.rules;
 
 import java.util.List;
 
+import javax.portlet.PortletRequest;
+
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.rules.actions.DeviceAction;
 
@@ -51,5 +53,14 @@ public interface DeviceRulesProvider {
 	 * @return list of rules all matching current company, group and layout.
 	 */
 	public List<RuleInfo> getRules(long companyId, long groupId, long layoutId);
+
+	
+	/**
+	 * Attempts to recognize and handle appropriately rule requests (for example add/delete rule requests)
+	 * 
+	 * @param request user's request 
+	 * @return list of error messages
+	 */
+	public List<String> handleRulesRequest(PortletRequest request);
 
 }

@@ -19,6 +19,8 @@ package com.commsen.liferay.multidevice.rules;
 import java.util.Collections;
 import java.util.List;
 
+import javax.portlet.PortletRequest;
+
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.rules.actions.DeviceAction;
 import com.commsen.liferay.multidevice.rules.actions.NoAction;
@@ -42,6 +44,14 @@ public class DefaultDeviceRulesProvider implements DeviceRulesProvider {
      */
     @Override
     public List<RuleInfo> getRules(long companyId, long groupId, long layoutId) {
+	    return Collections.emptyList();
+    }
+
+	/* (non-Javadoc)
+     * @see com.commsen.liferay.multidevice.rules.DeviceRulesProvider#handleRulesRequest(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public List<String> handleRulesRequest(PortletRequest request) {
 	    return Collections.emptyList();
     }
 

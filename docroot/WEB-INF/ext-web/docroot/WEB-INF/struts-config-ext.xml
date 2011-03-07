@@ -2,4 +2,55 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
 
 <struts-config>
+	<action-mappings>
+		<action path="/communities/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/enterprise_admin/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/enterprise_admin_communities/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/enterprise_admin_organizations/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/enterprise_admin_user_groups/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/enterprise_admin_users/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/layout_management/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/layout_prototypes/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.layout_prototypes.error" />
+		</action>
+		<action path="/layout_set_prototypes/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.layout_set_prototypes.error" />
+		</action>
+		<action path="/my_account/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/my_pages/edit_pages" type="com.liferay.portlet.communities.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		<action path="/group_pages/edit_pages" type="com.liferay.portlet.grouppages.action.MultideviceEditPagesAction">
+			<forward name="portlet.communities.edit_pages" path="portlet.communities.edit_pages" />
+			<forward name="portlet.communities.error" path="portlet.communities.error" />
+		</action>
+		
+	</action-mappings>
 </struts-config>

@@ -18,6 +18,8 @@ package com.commsen.liferay.multidevice.rules;
 
 import java.util.List;
 
+import javax.portlet.PortletRequest;
+
 import com.commsen.liferay.multidevice.Device;
 import com.commsen.liferay.multidevice.MultideviceConstants;
 import com.commsen.liferay.multidevice.command.ActionForDeviceCommand;
@@ -82,6 +84,29 @@ public class DeviceRulesProviderDelegate implements DeviceRulesProvider {
 			return (List) result;
 		} catch (MessageBusException e) {
 			_log.error("Failed to get list of device rules!", e);
+		}
+		return null;
+    }
+
+
+	/* (non-Javadoc)
+     * @see com.commsen.liferay.multidevice.rules.DeviceRulesProvider#handleRulesRequest(javax.servlet.http.HttpServletRequest)
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    public List<String> handleRulesRequest(PortletRequest request) {
+		try {
+			Object result = MessageBusUtil.sendSynchronousMessage(
+			        MultideviceConstants.DESTINATION_DEVICE_RULES_PROVIDER, request,
+			        MultideviceConstants.DESTINATION_DEVICE_RULES_PROVIDER_RESPONSE);
+			if (!(result instanceof List)) {
+				_log.error("Unexpected response! Expected " + List.class.getName() + " but got "
+				        + result.getClass().getName());
+				return null;
+			}
+			return (List) result;
+		} catch (MessageBusException e) {
+			_log.error("Failed to handle device rules request!", e);
 		}
 		return null;
     }

@@ -16,6 +16,8 @@
  */
 package com.commsen.liferay.multidevice.rules;
 
+import javax.portlet.PortletRequest;
+
 import com.commsen.liferay.multidevice.command.ActionForDeviceCommand;
 import com.commsen.liferay.multidevice.command.RulesListCommand;
 import com.liferay.portal.kernel.messaging.Message;
@@ -53,6 +55,14 @@ public class DeviceRulesMessageListener implements MessageListener {
 			return;
 		}
 	
+		if (payload instanceof PortletRequest) {
+			PortletRequest request = (PortletRequest)payload;
+			Message response = MessageBusUtil.createResponseMessage(message);
+			Object errorCodes = deviceRulesProvider.handleRulesRequest(request);
+			response.setPayload(errorCodes);
+			MessageBusUtil.sendMessage(message.getResponseDestinationName(), response);
+			return;
+		}
 	}
 
 	public void setDeviceRulesProvider(DeviceRulesProvider deviceRulesProvider) {
