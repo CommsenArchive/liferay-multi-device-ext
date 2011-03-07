@@ -1382,7 +1382,7 @@ public class ServicePreActionExt extends Action {
 			}
 		}
 		else {
-			DeviceAction deviceAction = DeviceRulesUtil.getAction(device, companyId, group.getGroupId(), layout.getLayoutId());
+			DeviceAction deviceAction = DeviceRulesUtil.getAction(device, companyId, group.getGroupId(), layout.getPlid());
 			if (deviceAction != null && !(deviceAction instanceof NoAction)) {
     			if (deviceAction instanceof ChangeThemeAction) {
     				ChangeThemeAction changeThemeAction = (ChangeThemeAction)deviceAction;
